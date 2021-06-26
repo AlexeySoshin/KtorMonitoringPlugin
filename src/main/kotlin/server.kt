@@ -12,9 +12,9 @@ fun main() {
     val metricsClient = MockMetricsClient()
     embeddedServer(Netty, port = port) {
 
-     /*   install(ServerMonitoringPlugin) {
+        install(ServerMonitoringPlugin) {
             client = metricsClient
-        }*/
+        }
 
         routing {
             // We'll return the same response for any URL
