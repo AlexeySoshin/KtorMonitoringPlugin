@@ -11,11 +11,6 @@ fun main() {
     val port = 9000
     val metricsClient = MockMetricsClient()
     embeddedServer(Netty, port = port) {
-
-     /*   install(ServerMonitoringPlugin) {
-            client = metricsClient
-        }*/
-
         routing {
             // We'll return the same response for any URL
             get("/*") {
@@ -31,14 +26,17 @@ fun main() {
         }
     }.start()
 
-    println("open http://localhost:$port")
+    println("open http://localhost:$port/")
 }
 
 
 class MockMetricsClient {
-    fun incrementSuccess(url: String) = println("${Calendar.getInstance().time} Success: $url")
+    fun incrementSuccess(url: String) =
+        println("${Calendar.getInstance().time} Success: $url")
 
-    fun incrementFailure(url: String, e: Throwable) = println("${Calendar.getInstance().time} Failure: $url, $e")
+    fun incrementFailure(url: String, e: Throwable) =
+        println("${Calendar.getInstance().time} Failure: $url, $e")
 
-    fun time(url: String, delta: Long) = println("${Calendar.getInstance().time} $url took ${delta}ms")
+    fun time(url: String, delta: Long) =
+        println("${Calendar.getInstance().time} $url took ${delta}ms")
 }
