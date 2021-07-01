@@ -11,22 +11,26 @@ fun main() {
     val port = 9000
     val metricsClient = MockMetricsClient()
     embeddedServer(Netty, port = port) {
-        routing {
-            // We'll return the same response for any URL
-            get("/*") {
-                // With some minor random delay
-                delay(Random.nextLong(10))
-
-                // Fail some requests randomly
-                if (Random.nextInt(10) == 0) {
-                    throw RuntimeException("Something bad happened")
-                }
-                call.respondText("Hello! ${Calendar.getInstance().time}")
-            }
-        }
+        mainModule()
     }.start()
 
     println("open http://localhost:$port/")
+}
+
+fun Application.mainModule() {
+    routing {
+        // We'll return the same response for any URL
+        get("/*") {
+            // With some minor random delay
+            delay(Random.nextLong(10))
+
+            // Fail some requests randomly
+            if (Random.nextInt(10) == 0) {
+                throw RuntimeException("Something bad happened")
+            }
+            call.respondText("Hello! ${Calendar.getInstance().time}")
+        }
+    }
 }
 
 
