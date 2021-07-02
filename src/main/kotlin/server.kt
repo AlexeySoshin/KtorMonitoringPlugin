@@ -9,7 +9,7 @@ import kotlin.random.Random
 
 fun main() {
     val port = 9000
-    val metricsClient = MockMetricsClient()
+
     embeddedServer(Netty, port = port) {
         mainModule()
     }.start()
@@ -18,6 +18,10 @@ fun main() {
 }
 
 fun Application.mainModule() {
+    val metricsClient = MockMetricsClient()
+    install(ServerMonitoringPlugin) {
+        this.client = metricsClient
+    }
     routing {
         // We'll return the same response for any URL
         get("/*") {

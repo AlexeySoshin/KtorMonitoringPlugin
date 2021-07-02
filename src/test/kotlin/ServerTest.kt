@@ -10,6 +10,9 @@ class ServerTest {
 
     private fun testModule(mockClient: MockMetricsClient): Application.() -> Unit {
         return {
+            install(ServerMonitoringPlugin) {
+                this.client = MockMetricsClient()
+            }
             routing {
                 get("/*") {
                     call.respond(HttpStatusCode.OK, "status")
